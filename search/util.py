@@ -147,6 +147,12 @@ class Stack:
         "Returns true if the stack is empty"
         return len(self.list) == 0
 
+    def __str__(self):
+        """
+        Returns a human-readable string representation.
+        """
+        return f"{self.list}"
+
 class Queue:
     "A container with a first-in-first-out (FIFO) queuing policy."
     def __init__(self):
@@ -166,6 +172,12 @@ class Queue:
     def isEmpty(self):
         "Returns true if the queue is empty"
         return len(self.list) == 0
+    
+    def __str__(self):
+        """
+        Returns a human-readable string representation.
+        """
+        return f"{self.list}"
 
 class PriorityQueue:
     """
@@ -204,6 +216,12 @@ class PriorityQueue:
                 break
         else:
             self.push(item, priority)
+
+    def __str__(self):
+        """
+        Returns a human-readable string representation.
+        """
+        return f"{self.list}"
 
 class PriorityQueueWithFunction(PriorityQueue):
     """

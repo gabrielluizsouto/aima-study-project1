@@ -94,47 +94,77 @@ def depthFirstSearch(problem: SearchProblem) -> List[Directions]:
     problem_start = (problem.getStartState(), "", 0)
     visited_list = set()
     to_visit_list = util.Stack()
-    to_visit_list.push((problem_start, []))
-    print("problem_start:", problem_start)
-    print("visited_list:", visited_list)
-    print("to_visit_list:", to_visit_list)
-    print("++++++++++")
+
+    to_visit_list.push((problem_start, path_to_state))
+    # print("problem_start:", problem_start)
+    # print("visited_list:", visited_list)
+    # print("to_visit_list:", to_visit_list)
+    # print("++++++++++")
 
     while to_visit_list.isEmpty() != True:
         current_state, path_to_state = to_visit_list.pop()
-        current_node, action_to_node, cost_to_node = current_state
-        print("current_state, path_to_state", current_state, path_to_state)
-        print("current_node, action_to_node, cost_to_node", current_node, action_to_node, cost_to_node)
-
-        if current_node in visited_list:
-            continue
+        current_node, action_to_node, action_cost = current_state
+        # print("current_state, path_to_state", current_state, path_to_state)
+        # print("current_node, action_to_node, cost_to_node", current_node, action_to_node, cost_to_node)
 
         visited_list.add(current_node)
-        print("visited_list", visited_list)
+        # print("visited_list", visited_list)
 
         if problem.isGoalState(current_node):
-            print("path_to_state", path_to_state)
+            # print("path_to_state", path_to_state)
             return path_to_state
         
         successors = problem.getSuccessors(current_node)
-        print("successors", successors)
+        # print("successors", successors)
         for successor in successors:
             if successor[0] not in visited_list:
                 new_path_to_state = path_to_state + [successor[1]]
                 to_visit_list.push((successor, new_path_to_state))
 
-        print("to_visit_list", to_visit_list)
+        # print("to_visit_list", to_visit_list)
         # input("--- Press Enter to continue...") # Or "Press any key to continue..."
 
-    print("path_to_state", path_to_state)
+    # print("path_to_state", path_to_state)
     return path_to_state
-
-
 
 def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    problem_start = (problem.getStartState(), "", 0)
+    visited_list = set()
+    to_visit_list = util.Queue()
+    path_to_state = []
+
+    to_visit_list.push((problem_start, path_to_state))
+    visited_list.add(problem.getStartState())
+    # print("problem_start : ", problem_start)
+    # print("visited_list : ", visited_list)
+    # print("to_visit_list : ", to_visit_list)
+    # print("path_to_state : ", path_to_state)
+    # print("+++++++++++")
+
+    while to_visit_list.isEmpty() != True:
+        current_state, path_to_state = to_visit_list.pop()
+        current_node, action_to_node, action_cost = current_state
+
+        # print("current_node : ", current_node)
+        # print("path_to_state : ", path_to_state)
+        # print("visited_list : ", visited_list)
+
+        if problem.isGoalState(current_node) == True:
+            return path_to_state
+
+        successors = problem.getSuccessors(current_node)
+        # print("successors : ", successors)
+        for successor in successors:
+            if successor[0] not in visited_list:
+                new_path_to_state = path_to_state + [successor[1]]
+                to_visit_list.push((successor, new_path_to_state))
+                visited_list.add(successor[0])
+    
+        # print("to_visit_list : ", to_visit_list)
+        # input("--- Press Enter to continue...") # Or "Press any key to continue..."
+    return path_to_state
 
 def uniformCostSearch(problem: SearchProblem) -> List[Directions]:
     """Search the node of least total cost first."""
