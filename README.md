@@ -8,3 +8,5 @@ To achieve my objectives, I am:
   - This course is great because it has the online classes based on the AIMA book and proposed projects
 
 Here, in this repository, I added the code of the first project. (https://inst.eecs.berkeley.edu/~cs188/su25/projects/proj1/)
+
+My first commit has the base code, containing skeletons of the search trees that needed to be implemented. I added my code in the subsequent commits.
