@@ -18,6 +18,8 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+from game import Directions
+from typing import List
 
 class SearchProblem:
     """
@@ -62,17 +64,18 @@ class SearchProblem:
         util.raiseNotDefined()
 
 
-def tinyMazeSearch(problem):
+
+
+def tinyMazeSearch(problem: SearchProblem) -> List[Directions]:
     """
     Returns a sequence of moves that solves tinyMaze.  For any other maze, the
     sequence of moves will be incorrect, so only use this for tinyMaze.
     """
-    from game import Directions
     s = Directions.SOUTH
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def depthFirstSearch(problem: SearchProblem):
+def depthFirstSearch(problem: SearchProblem) -> List[Directions]:
     """
     Search the deepest nodes in the search tree first.
 
@@ -87,30 +90,68 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    path_to_state = []
+    problem_start = (problem.getStartState(), "", 0)
+    visited_list = set()
+    to_visit_list = util.Stack()
+    to_visit_list.push((problem_start, []))
+    print("problem_start:", problem_start)
+    print("visited_list:", visited_list)
+    print("to_visit_list:", to_visit_list)
+    print("++++++++++")
 
-def breadthFirstSearch(problem: SearchProblem):
+    while to_visit_list.isEmpty() != True:
+        current_state, path_to_state = to_visit_list.pop()
+        current_node, action_to_node, cost_to_node = current_state
+        print("current_state, path_to_state", current_state, path_to_state)
+        print("current_node, action_to_node, cost_to_node", current_node, action_to_node, cost_to_node)
+
+        if current_node in visited_list:
+            continue
+
+        visited_list.add(current_node)
+        print("visited_list", visited_list)
+
+        if problem.isGoalState(current_node):
+            print("path_to_state", path_to_state)
+            return path_to_state
+        
+        successors = problem.getSuccessors(current_node)
+        print("successors", successors)
+        for successor in successors:
+            if successor[0] not in visited_list:
+                new_path_to_state = path_to_state + [successor[1]]
+                to_visit_list.push((successor, new_path_to_state))
+
+        print("to_visit_list", to_visit_list)
+        # input("--- Press Enter to continue...") # Or "Press any key to continue..."
+
+    print("path_to_state", path_to_state)
+    return path_to_state
+
+
+
+def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
-def uniformCostSearch(problem: SearchProblem):
+def uniformCostSearch(problem: SearchProblem) -> List[Directions]:
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
-def nullHeuristic(state, problem=None):
+def nullHeuristic(state, problem=None) -> float:
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
     return 0
 
-def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
+def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic) -> List[Directions]:
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
-
 
 # Abbreviations
 bfs = breadthFirstSearch
