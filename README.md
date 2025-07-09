@@ -1,6 +1,6 @@
-AI Study - Project 1 - Search
+# AI Study - Project 1 - Search
 
-Introduction and context
+## Introduction and context
 I am a computer scientist who is deep diving into Artificial Intelligence. 
 To achieve my objectives, I am:
 - reading the book "Artificial Intelligence, a modern approach" (AIMA) fourth edition from Russel & Norvig
