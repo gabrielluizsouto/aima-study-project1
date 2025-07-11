@@ -169,8 +169,47 @@ def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
 def uniformCostSearch(problem: SearchProblem) -> List[Directions]:
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    path_to_state = {}
+    to_visit_list = util.PriorityQueue()
+    visited_list = set()
+    problem_start = problem.getStartState()
 
+    path_to_state[problem_start] = []
+    to_visit_list.push(problem_start, 0)
+    # print("path_to_state:", path_to_state)
+    # print("problem_start:", problem_start)
+    # print("visited_list:", visited_list)
+    # print("to_visit_list:", to_visit_list)
+
+    while to_visit_list.isEmpty() != True:
+        print("----------------")
+        # current_node, instruction_to_reach_node, current_cost = to_visit_list.pop()
+        current_node = to_visit_list.pop()
+        # print("current_state:", current_node)
+
+        visited_list.add(current_node)
+        # print("visited_list:", visited_list)
+
+        if problem.isGoalState(current_node):
+            # print("path_to_state:", path_to_state[current_node])
+            return path_to_state[current_node]
+        
+        successors = problem.getSuccessors(current_node)
+        # print("successors:", successors)
+        for successor in successors:
+            successor_node, successor_instruction_to_reach, successor_cost_of_instruction = successor
+
+            total_cost_to_reach_successor = successor_cost_of_instruction + problem.getCostOfActions(path_to_state[current_node])
+            if successor_node not in visited_list:
+                to_visit_list.update(successor_node, total_cost_to_reach_successor)
+                if successor_node not in path_to_state or problem.getCostOfActions(path_to_state[successor_node]) > total_cost_to_reach_successor:
+                    path_to_state[successor_node] = path_to_state[current_node] + [successor_instruction_to_reach]
+
+        # print("to_visit_list:", to_visit_list)
+        # print("path_to_state:", path_to_state)
+        # input("--- Press Enter to continue...") # Or "Press any key to continue..."
+    return False
+    
 def nullHeuristic(state, problem=None) -> float:
     """
     A heuristic function estimates the cost from the current state to the nearest
