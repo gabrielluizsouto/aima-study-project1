@@ -5,7 +5,7 @@ I am a computer scientist who is deep diving into Artificial Intelligence.
 To achieve my objectives, I am:
 - reading the book "Artificial Intelligence, a modern approach" (AIMA) fourth edition from Russel & Norvig
 - following the UC Berkeley AI course ministred by John Canny and Oliver Grillmeyer (https://inst.eecs.berkeley.edu/~cs188/sp25/)
-  - This course is great because it has the online classes based on the AIMA book and proposed projects
+  - this course is great because it has classes, based on the AIMA book, that are recorded and posted online, and it also has proposed projects to practice the learnings
 
 The first proposed project from the AI course is on the course´s page (https://inst.eecs.berkeley.edu/~cs188/su25/projects/proj1/). 
 I developed the proposed codes and commited it to this reository.
