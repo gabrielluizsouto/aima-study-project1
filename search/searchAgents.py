@@ -288,6 +288,8 @@ class CornersProblem(search.SearchProblem):
         for corner in self.corners:
             if not startingGameState.hasFood(*corner):
                 print('Warning: no food in corner ' + str(corner))
+        self.hasFood = startingGameState.hasFood
+
         self._expanded = 0 # DO NOT CHANGE; Number of search nodes expanded
 
     def getStartState(self):
@@ -296,14 +298,31 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # print("self.walls", self.walls)
+        # print("self.startingPosition", self.startingPosition)
+        # print("self.corners", self.corners)
+        return self.startingPosition
 
     def isGoalState(self, state: Any):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        xCorner1, yCorner1 = self.corners[0]
+        xCorner2, yCorner2 = self.corners[1]
+        xCorner3, yCorner3 = self.corners[2]
+        xCorner4, yCorner4 = self.corners[3]
+        # print(xCorner1, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4)
+        # print("self.hasFood(xCorner1, yCorner1)", (xCorner1, yCorner1), self.hasFood(xCorner1, yCorner1))
+        # print("self.hasFood(xCorner2, yCorner2)", (xCorner2, yCorner2), self.hasFood(xCorner2, yCorner2))
+        # print("self.hasFood(xCorner3, yCorner3)", (xCorner3, yCorner3), self.hasFood(xCorner3, yCorner3))
+        # print("self.hasFood(xCorner4, yCorner4)", (xCorner4, yCorner4), self.hasFood(xCorner4, yCorner4))
+        # print("if", self.hasFood(xCorner1, yCorner1) == False and self.hasFood(xCorner2, yCorner2) == False and self.hasFood(xCorner3, yCorner3) == False and self.hasFood(xCorner4, yCorner4) == False)
+        
+        if self.hasFood(xCorner1, yCorner1) == False and self.hasFood(xCorner2, yCorner2) == False and self.hasFood(xCorner3, yCorner3) == False and self.hasFood(xCorner4, yCorner4) == False:
+            return True
+    
+        return False
 
     def getSuccessors(self, state: Any):
         """
@@ -315,18 +334,25 @@ class CornersProblem(search.SearchProblem):
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
-
         successors = []
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-            #   x,y = currentPosition
-            #   dx, dy = Actions.directionToVector(action)
-            #   nextx, nexty = int(x + dx), int(y + dy)
-            #   hitsWall = self.walls[nextx][nexty]
+            x,y = state
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            successor = (nextx, nexty)
+            hitsWall = self.walls[nextx][nexty]
+            # print("action", action)
+            # print("Actions.directionToVector(action)", Actions.directionToVector(action))
+            # print("nextx, nexty", nextx, nexty)
+            # print("hitsWall", hitsWall)
+            if not hitsWall:
+                successors.append((successor, action, 1))
 
-            "*** YOUR CODE HERE ***"
+        # successors.append((self.corners[0], path_to_state, getCostOfActions(path_to_state)))
 
+        # print(successors)
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
@@ -361,6 +387,11 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
+    # print("state", state)
+    # print("problem", problem)
+    # print("corners", corners)
+    # print("walls", walls)
+
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):

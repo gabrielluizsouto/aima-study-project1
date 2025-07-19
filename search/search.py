@@ -63,9 +63,6 @@ class SearchProblem:
         """
         util.raiseNotDefined()
 
-
-
-
 def tinyMazeSearch(problem: SearchProblem) -> List[Directions]:
     """
     Returns a sequence of moves that solves tinyMaze.  For any other maze, the
