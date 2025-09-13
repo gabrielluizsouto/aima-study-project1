@@ -296,10 +296,9 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-
-        cornersStatus = tuple(True for _ in self.corners)
-        print("dfydsfdsffds", tuple(self.startingPosition, cornersStatus))
-        return tuple(self.startingPosition, cornersStatus)
+        startingPosition = self.startingPosition
+        cornersVisitedStatus = (False, False, False, False)
+        return (startingPosition, cornersVisitedStatus)
 
     def isGoalState(self, state: Any):
         """
@@ -309,7 +308,7 @@ class CornersProblem(search.SearchProblem):
         pacmanPosition = state[0]
         corners = state[1]
         
-        if all(not corner for corner in corners):
+        if all(corner for corner in corners):
             return True
     
         return False
