@@ -323,23 +323,34 @@ class CornersProblem(search.SearchProblem):
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
+        currentPosition = state[0]
+        cornersVisited = state[1]
+
         successors = []
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-            x,y = state
+            #   x,y = currentPosition
+            #   dx, dy = Actions.directionToVector(action)
+            #   nextx, nexty = int(x + dx), int(y + dy)
+            #   hitsWall = self.walls[nextx][nexty]
+            "*** YOUR CODE HERE ***"
+            x, y = currentPosition
             dx, dy = Actions.directionToVector(action)
-            nextx, nexty = int(x + dx), int(y + dy)
-            successor = (nextx, nexty)
-            hitsWall = self.walls[nextx][nexty]
-            # print("action", action)
-            # print("Actions.directionToVector(action)", Actions.directionToVector(action))
-            # print("nextx, nexty", nextx, nexty)
-            # print("hitsWall", hitsWall)
+            nextPosition = (int(x + dx), int(y + dy))
+            hitsWall = self.walls[nextPosition[0]][nextPosition[1]]
             if not hitsWall:
-                successors.append((successor, action, 1))
+                newCornersVisitedList = list(cornersVisited)
+                if nextPosition in self.corners:
+                    cornerIndex = self.corners.index(nextPosition)
+                    newCornersVisitedList[cornerIndex] = True
 
-        # print(successors)
+                newCornersVisitedList = tuple(newCornersVisitedList)
+                nextPositionState = (nextPosition, newCornersVisitedList)
+                costToNextPosition = 1
+                successors.append( ( nextPositionState, action, costToNextPosition) )
+
+
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
