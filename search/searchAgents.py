@@ -505,32 +505,62 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
     foodList = foodGrid.asList()
-    # print("position:", position)
-    # print("walls:")
-    # print(problem.walls)
-    # print("foodGrid:")
-    # print(foodGrid)
-    # print("foodList:", foodList)
-    # input("Press Enter to continue...")
 
     if foodList == []:
         return 0
-    
-    # if 'mazeDistance' not in problem.heuristicInfo:
-    #     problem.heuristicInfo['mazeDistance'] = calculateMazeDistance()
 
-    # def calculateMazeDistance():
-    #     for food in foodList:
+    problem.heuristicInfo.setdefault('mazeDistCache', {})
+
+    def getMazeDistance(pos1, pos2):
+        """
+        Calculates the maze distance between two points using a "mini-BFS".
+        Uses the cache in problem.heuristicInfo to avoid re-calculating.
+        """
+        cache = problem.heuristicInfo['mazeDistCache']
+        
+        # Check cache first (both orderings)
+        if (pos1, pos2) in cache:
+            return cache[(pos1, pos2)]
+        if (pos2, pos1) in cache:
+            return cache[(pos2, pos1)]
+
+        # --- "mini-BFS" logic ---
+        queue = util.Queue()
+        queue.push( (pos1, 0) )
+        visited = set()
+        visited.add(pos1)
+        walls = problem.walls
+
+        while not queue.isEmpty():
+            curr_pos, curr_dist = queue.pop()
+
+            if curr_pos == pos2:
+                cache[(pos1, pos2)] = curr_dist
+                cache[(pos2, pos1)] = curr_dist
+                return curr_dist
+
+            for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
+                dx, dy = Actions.directionToVector(action)
+                next_pos = (int(curr_pos[0] + dx), int(curr_pos[1] + dy))
+
+                if next_pos not in visited and not walls[next_pos[0]][next_pos[1]]:
+                    visited.add(next_pos)
+                    queue.push( (next_pos, curr_dist + 1) )
+        
+        cache[(pos1, pos2)] = 999999
+        cache[(pos2, pos1)] = 999999
+        return 999999
+        # --- End of "mini-BFS" logic ---
 
     distancesToFood = []
     for food in foodList:
-        # distancesToFood.append(abs(position[0] - food[0]) + abs(position[1] - food[1]))
-        distancesToFood.append(util.manhattanDistance(position, food))
+        # For each food, get the TRUE maze distance (which is now cached)
+        distancesToFood.append( getMazeDistance(position, food) )
 
+    # Return the max of those distances, just like you did for Q6
+    # This is safe because we already checked if the list is empty.
     return max(distancesToFood)
         
-
-
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
     def registerInitialState(self, state):
