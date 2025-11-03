@@ -554,11 +554,8 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
 
     distancesToFood = []
     for food in foodList:
-        # For each food, get the TRUE maze distance (which is now cached)
         distancesToFood.append( getMazeDistance(position, food) )
 
-    # Return the max of those distances, just like you did for Q6
-    # This is safe because we already checked if the list is empty.
     return max(distancesToFood)
         
 class ClosestDotSearchAgent(SearchAgent):
